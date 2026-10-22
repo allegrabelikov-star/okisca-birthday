@@ -1,0 +1,264 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>A Little Dino Surprise for Okisca</title>
+
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Playfair+Display:wght@700;800&display=swap" rel="stylesheet">
+
+<style>
+:root {
+  --paper: #F5F0E6;
+  --sage: #A8B99A;
+  --forest: #657957;
+  --amber: #D9A56C;
+  --clay: #D9B9AD;
+  --ink: #514B43;
+}
+
+* { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  background: var(--paper);
+  color: var(--ink);
+  font-family: "DM Sans", sans-serif;
+  display: grid;
+  place-items: center;
+  padding: 24px;
+  overflow-x: hidden;
+}
+
+.page {
+  width: min(100%, 680px);
+  text-align: center;
+  padding: 34px 24px;
+  border: 1px solid #D9B9AD;
+  border-radius: 20px;
+  position: relative;
+  background: rgba(255,255,255,.18);
+}
+
+.brand {
+  color: var(--forest);
+  font-size: 11px;
+  letter-spacing: 4px;
+  font-weight: 700;
+}
+
+.dino {
+  font-size: clamp(76px, 16vw, 112px);
+  margin: 28px 0 10px;
+  animation: float 3s ease-in-out infinite;
+  display: inline-block;
+}
+
+@keyframes float {
+  0%, 100% { transform: translateY(0) rotate(-3deg); }
+  50% { transform: translateY(-12px) rotate(3deg); }
+}
+
+.eyebrow {
+  color: var(--amber);
+  font-size: 11px;
+  letter-spacing: 3px;
+  font-weight: 700;
+}
+
+h1 {
+  font-family: "Playfair Display", Georgia, serif;
+  font-size: clamp(38px, 8vw, 64px);
+  line-height: 1.08;
+  margin: 14px 0;
+  text-transform: uppercase;
+}
+
+.description {
+  color: #898176;
+  line-height: 1.8;
+  font-size: 14px;
+  max-width: 390px;
+  margin: 0 auto 26px;
+}
+
+.question {
+  font-weight: 700;
+  font-size: 15px;
+  margin: 26px 0 18px;
+}
+
+.buttons {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 12px;
+  min-height: 54px;
+  flex-wrap: wrap;
+}
+
+button {
+  border: 0;
+  border-radius: 9px;
+  padding: 14px 27px;
+  font: inherit;
+  font-weight: 700;
+  cursor: pointer;
+  transition: transform .2s, background .2s;
+}
+
+#yes {
+  background: var(--forest);
+  color: white;
+}
+
+#yes:hover {
+  background: #506347;
+  transform: translateY(-2px);
+}
+
+#no {
+  background: #E8E1D2;
+  color: var(--ink);
+}
+
+.note {
+  margin-top: 28px;
+  font-size: 11px;
+  color: #A88C62;
+}
+
+#surprise {
+  display: none;
+  animation: appear .8s ease both;
+}
+
+#surprise .dino {
+  font-size: 90px;
+}
+
+@keyframes appear {
+  from { opacity: 0; transform: translateY(15px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.heart {
+  position: fixed;
+  pointer-events: none;
+  animation: rise 1.8s ease-out forwards;
+  z-index: 5;
+}
+
+@keyframes rise {
+  to {
+    transform: translateY(-180px) rotate(25deg);
+    opacity: 0;
+  }
+}
+
+@media (max-width: 420px) {
+  .page { padding: 28px 18px; }
+  h1 { font-size: 39px; }
+  button { padding: 13px 22px; }
+}
+</style>
+</head>
+
+<body>
+<main class="page">
+  <div id="welcome">
+    <div class="brand">THE LITTLE DINO CLUB</div>
+
+    <div class="dino">🦕</div>
+
+    <div class="eyebrow">A SPECIAL DAY FOR YOU</div>
+    <h1>Hey,<br>Okisca!</h1>
+
+    <p class="description">
+      Psst... a little something has been prepared
+      just for you. And our tiny dinosaur has been
+      keeping a secret. ♡
+    </p>
+
+    <div class="question">
+      Are you ready for your birthday surprise?
+    </div>
+
+    <div class="buttons">
+      <button id="yes">YES! ♡</button>
+      <button id="no">No 😶</button>
+    </div>
+
+    <p class="note">
+      P.S. The little dinosaur is watching you...
+    </p>
+  </div>
+
+  <section id="surprise">
+    <div class="brand">ACCESS GRANTED ♡</div>
+    <div class="dino">🦖🎂</div>
+    <div class="eyebrow">ROAR MEANS LOVE</div>
+    <h1>YAY!<br>IT'S YOUR DAY!</h1>
+
+    <p class="description">
+      Happy Birthday, Okisca! ♡<br>
+      Someone has made a little corner of the
+      internet just for you. And this is only
+      the beginning...
+    </p>
+
+    <button id="back" style="background:var(--forest);color:white">
+      Read that again ↻
+    </button>
+  </section>
+</main>
+
+<script>
+const welcome = document.getElementById("welcome");
+const surprise = document.getElementById("surprise");
+const yes = document.getElementById("yes");
+const no = document.getElementById("no");
+const back = document.getElementById("back");
+
+yes.addEventListener("click", () => {
+  welcome.style.display = "none";
+  surprise.style.display = "block";
+
+  for (let i = 0; i < 16; i++) {
+    setTimeout(() => {
+      const heart = document.createElement("span");
+      heart.className = "heart";
+      heart.textContent = ["💚", "✨", "🦕", "♡"][
+        Math.floor(Math.random() * 4)
+      ];
+      heart.style.left = Math.random() * 100 + "vw";
+      heart.style.top = (55 + Math.random() * 35) + "vh";
+      heart.style.fontSize = (16 + Math.random() * 16) + "px";
+      document.body.appendChild(heart);
+      setTimeout(() => heart.remove(), 1900);
+    }, i * 70);
+  }
+});
+
+no.addEventListener("pointerenter", () => {
+  const x = Math.random() * 180 - 90;
+  const y = Math.random() * 100 - 50;
+  no.style.transform = `translate(${x}px, ${y}px)`;
+});
+
+no.addEventListener("click", () => {
+  no.textContent = "Hehe, try again! 🦖";
+  no.style.transform = "translate(35px, -25px)";
+});
+
+back.addEventListener("click", () => {
+  surprise.style.display = "none";
+  welcome.style.display = "block";
+  no.textContent = "No 😶";
+  no.style.transform = "none";
+});
+</script>
+</body>
+</html>
