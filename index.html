@@ -1578,7 +1578,100 @@ function updatePuzzleProgress() {
 }
 
 shufflePuzzle.addEventListener("click", startPuzzle);
- star.classList.add("caught");
+
+/* ONE LAST THING — WISHING SKY */
+const wishingSky = document.getElementById("wishing-sky");
+const closeWishingSky = document.getElementById("close-wishing-sky");
+const starField = document.getElementById("star-field");
+const wishMessage = document.getElementById("wish-message");
+const wishText = document.getElementById("wish-text");
+const oneLastCard = document.querySelector(
+  '#gift-menu .gift-card:nth-child(4)'
+);
+
+const wishes = [
+  "May you always be surrounded by kind people. ♡",
+  "May you always be healthy, happy, and full of energy.",
+  "May free shipping find its way to every order you make. 📦",
+  "May a cool breeze always find you, wherever you go. 🌿",
+  "May surprise money appear whenever you need it. 💸",
+  "May you get to meet your favourite idol in person someday. 🐺",
+  "May you always find delicious food without having to look too far. 🍜",
+  "May you always be loved by me. ♡",
+  "May your phone always stay cool and fully charged. 🔋",
+  "May your snack cravings never come with a queue. 🍰",
+  "May we always find our way back to each other. 💚",
+  "May you always be able to buy the novels you love. 📚",
+  "May your favourite songs find you on the days you need them most. 🎧",
+  "May little surprises find you on ordinary days. ✨",
+  "May life be gentle with you, even when the world feels loud.",
+  "May every new year bring you closer to the dreams you hold dear."
+];
+
+const starShapes = ["✦", "✧", "⋆", "★", "☆", "✶", "✷", "✹", "✴", "✵"];
+const starColors = ["#F4D991", "#E6C47B", "#D9AD70", "#D8E2BD", "#F5E9C8"];
+
+let starTimer = null;
+let activeWishTimer = null;
+
+oneLastCard.style.cursor = "pointer";
+
+oneLastCard.addEventListener("click", () => {
+  giftMenu.style.display = "none";
+  wishingSky.style.display = "block";
+  document.body.style.overflow = "hidden";
+  startWishingSky();
+});
+
+closeWishingSky.addEventListener("click", () => {
+  stopWishingSky();
+  wishingSky.style.display = "none";
+  giftMenu.style.display = "block";
+  document.body.style.overflow = "";
+  window.scrollTo(0, 0);
+});
+
+function startWishingSky() {
+  stopWishingSky();
+  starField.innerHTML = "";
+  wishMessage.classList.remove("visible");
+  wishText.textContent = "";
+
+  createFallingStar();
+  starTimer = setInterval(createFallingStar, 500);
+}
+
+function stopWishingSky() {
+  clearInterval(starTimer);
+  clearTimeout(activeWishTimer);
+  starTimer = null;
+  activeWishTimer = null;
+}
+
+function createFallingStar() {
+  if (starField.childElementCount > 32) return;
+
+  const star = document.createElement("button");
+  star.type = "button";
+  star.className = "falling-star";
+  star.textContent =
+    starShapes[Math.floor(Math.random() * starShapes.length)];
+
+  const duration = 5 + Math.random() * 6;
+  const drift = Math.round(Math.random() * 160 - 80);
+
+  star.style.left = `${Math.random() * 92}%`;
+  star.style.color =
+    starColors[Math.floor(Math.random() * starColors.length)];
+  star.style.fontSize = `${15 + Math.random() * 19}px`;
+  star.style.animationDuration = `${duration}s`;
+  star.style.setProperty("--drift", `${drift}px`);
+  star.setAttribute("aria-label", "Catch this falling star");
+
+  star.addEventListener("click", () => {
+    if (star.classList.contains("caught")) return;
+
+    star.classList.add("caught");
 
     const wish = wishes[Math.floor(Math.random() * wishes.length)];
     wishText.textContent = wish;
@@ -1598,6 +1691,7 @@ shufflePuzzle.addEventListener("click", startPuzzle);
 
   starField.appendChild(star);
 }
+
 </script>
 </body>
 </html>
