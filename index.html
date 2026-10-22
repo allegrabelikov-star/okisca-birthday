@@ -163,6 +163,64 @@ button {
   h1 { font-size: 39px; }
   button { padding: 13px 22px; }
 }
+
+.birthday-photos {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 14px;
+  width: 100%;
+  max-width: 460px;
+  margin: 28px auto 20px;
+}
+
+.photo-card {
+  width: 44%;
+  margin: 0;
+  padding: 8px 8px 12px;
+  background: #fffdf8;
+  border-radius: 5px;
+  box-shadow: 0 7px 20px rgba(81, 75, 67, 0.12);
+}
+
+.photo-left {
+  transform: rotate(-5deg);
+}
+
+.photo-right {
+  transform: rotate(5deg);
+}
+
+.photo-card img {
+  display: block;
+  width: 100%;
+  aspect-ratio: 4 / 5;
+  object-fit: cover;
+  object-position: center;
+  border-radius: 2px;
+}
+
+.photo-card figcaption {
+  margin-top: 10px;
+  color: #657957;
+  font-size: 11px;
+  font-family: "DM Sans", sans-serif;
+}
+
+@media (max-width: 420px) {
+  .birthday-photos {
+    gap: 10px;
+    max-width: 340px;
+  }
+
+  .photo-card {
+    padding: 6px 6px 10px;
+  }
+
+  .photo-card figcaption {
+    font-size: 10px;
+  }
+}
 </style>
 </head>
 
@@ -198,13 +256,29 @@ button {
 
   <section id="surprise">
     <div class="brand">ACCESS GRANTED ♡</div>
-    <div class="dino">🦖🎂</div>
+<div class="birthday-photos">
+  <figure class="photo-card photo-left">
+    <img
+      src="WhatsApp%20Image%202026-10-22%20at%2010.35.08.jpeg"
+      alt="Okisca photo one"
+    />
+    <figcaption>pretty girl ♡</figcaption>
+  </figure>
+
+  <figure class="photo-card photo-right">
+    <img
+      src="WhatsApp%20Image%202026-10-22%20at%2010.35.09.jpeg"
+      alt="Okisca photo two"
+    />
+    <figcaption>birthday girl ✿</figcaption>
+  </figure>
+</div>
     <div class="eyebrow">ROAR MEANS LOVE</div>
     <h1>YAY!<br>IT'S YOUR DAY!</h1>
 
     <p class="description">
       Happy Birthday, Okisca! ♡<br>
-      Someone has made a little corner of the
+      I made a little corner of the
       internet just for you. And this is only
       the beginning...
     </p>
