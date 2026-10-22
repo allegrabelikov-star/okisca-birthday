@@ -762,20 +762,45 @@ button {
 }
 
 .falling-star {
+
+/* VERTICAL STARDUST TRAIL */
+.falling-star::before {
+  content: "";
   position: absolute;
-  top: -60px;
-  left: 0;
-  padding: 8px;
-  border: 0;
-  background: transparent;
-  color: #F4D991;
-  font-size: 26px;
-  line-height: 1;
-  cursor: pointer;
-  user-select: none;
-  -webkit-tap-highlight-color: transparent;
-  filter: drop-shadow(0 0 8px rgba(244, 217, 145, .65));
+  z-index: -1;
+  left: 50%;
+  top: 30px;
+  width: 2px;
+  height: 48px;
+  transform: translateX(-50%);
+  border-radius: 50%;
+  background: linear-gradient(
+    to bottom,
+    currentColor 0%,
+    rgba(255, 255, 255, 0.45) 25%,
+    rgba(255, 255, 255, 0.12) 65%,
+    transparent 100%
+  );
+  box-shadow: 0 0 7px currentColor;
+  opacity: 0.7;
+  pointer-events: none;
+}
+  
+.falling-star {
+  /* Keep the falling motion on the outer star */
   animation: star-fall linear forwards;
+}
+
+.falling-star::after {
+  content: attr(data-star);
+  position: relative;
+  z-index: 1;
+  animation: star-spin 4s linear infinite;
+}
+
+@keyframes star-spin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
 }
   
 /* MAGICAL STAR TRAILS */
@@ -903,15 +928,20 @@ button {
 
 .wish-message {
   width: min(100%, 460px);
-  padding: 25px 22px;
-  border: 1px solid rgba(244, 217, 145, .35);
-  border-radius: 20px;
-  background: rgba(16, 30, 24, .92);
-  box-shadow: 0 0 55px rgba(244, 217, 145, .12);
+  padding: 28px 24px;
+  border: 1px solid rgba(255, 248, 231, 0.38);
+  border-radius: 22px;
+  background: rgba(235, 242, 255, 0.10);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  box-shadow:
+    0 8px 32px rgba(0, 0, 0, 0.12),
+    inset 0 1px 0 rgba(255, 255, 255, 0.15);
   opacity: 0;
   transform: scale(.86);
   transition: opacity .45s ease, transform .45s ease;
 }
+
 
 .wish-message.visible {
   opacity: 1;
@@ -930,7 +960,7 @@ button {
   font-size: clamp(20px, 5vw, 27px);
   line-height: 1.65;
   margin: 0;
-  color: #F5E9C8;
+  color: #FFF8E7;
 }
 
 @keyframes wish-glow {
