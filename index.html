@@ -761,34 +761,7 @@ button {
   overflow: hidden;
 }
 
-.falling-star {
-
-/* VERTICAL STARDUST TRAIL */
-.falling-star::before {
-  content: "";
-  position: absolute;
-  z-index: -1;
-  left: 50%;
-  top: 30px;
-  width: 2px;
-  height: 48px;
-  transform: translateX(-50%);
-  border-radius: 50%;
-  background: linear-gradient(
-    to bottom,
-    currentColor 0%,
-    rgba(255, 255, 255, 0.45) 25%,
-    rgba(255, 255, 255, 0.12) 65%,
-    transparent 100%
-  );
-  box-shadow: 0 0 7px currentColor;
-  opacity: 0.7;
-  pointer-events: none;
-}
-  
-.falling-star {
-
-/* FALLING STARS — CLEAN MAGICAL STYLE */
+/* FALLING STARS */
 .falling-star {
   position: absolute;
   display: flex;
@@ -801,6 +774,8 @@ button {
   border-radius: 50%;
   background: transparent;
   color: #FFF8E7;
+  font-family: Arial, sans-serif;
+  font-size: 28px;
   line-height: 1;
   text-shadow:
     0 0 5px currentColor,
@@ -809,36 +784,34 @@ button {
   animation: star-fall linear forwards;
   cursor: pointer;
   isolation: isolate;
-  -webkit-appearance: none;
   appearance: none;
+  -webkit-appearance: none;
 }
 
-/* Straight, soft stardust trail */
+/* Straight stardust trail */
 .falling-star::before {
   content: "";
   position: absolute;
   z-index: -1;
   left: 50%;
-  top: 28px;
+  top: 27px;
   width: 2px;
-  height: 42px;
-  border-radius: 50%;
+  height: 38px;
   transform: translateX(-50%);
+  border-radius: 50%;
   background: linear-gradient(
     to bottom,
-    currentColor 0%,
-    rgba(255, 255, 255, 0.4) 30%,
-    rgba(255, 255, 255, 0.12) 65%,
-    transparent 100%
+    currentColor,
+    rgba(255, 255, 255, 0.25),
+    transparent
   );
-  box-shadow: 0 0 7px currentColor;
-  opacity: 0.65;
+  box-shadow: 0 0 6px currentColor;
+  opacity: .55;
   pointer-events: none;
 }
 
 .falling-star:focus-visible {
   outline: 2px solid #F4D991;
-  outline-offset: 2px;
 }
 
 .falling-star.caught {
