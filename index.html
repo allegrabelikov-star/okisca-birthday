@@ -400,6 +400,229 @@ button {
   }
 }
 
+/* LITTLE MEMORIES — DINO EXPLORATION */
+#little-memories {
+  display: none;
+  width: 100%;
+  animation: appear .6s ease both;
+}
+
+.memory-heading {
+  margin: 18px 0 8px;
+  font-family: "Playfair Display", Georgia, serif;
+  font-size: clamp(32px, 7vw, 46px);
+  line-height: 1.15;
+}
+
+.memory-subtitle {
+  font-size: 13px;
+  line-height: 1.8;
+  color: #766F60;
+  max-width: 440px;
+  margin: 0 auto 22px;
+}
+
+.song-box {
+  background: #F5F1E3;
+  border: 1px solid #D5CDB6;
+  border-radius: 16px;
+  padding: 16px;
+  margin: 22px auto;
+  text-align: left;
+}
+
+.song-label {
+  color: var(--forest);
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 2px;
+  margin-bottom: 8px;
+}
+
+.song-box h3 {
+  font-family: "Playfair Display", Georgia, serif;
+  margin: 0 0 6px;
+  font-size: 21px;
+}
+
+.song-box p {
+  color: #766F60;
+  font-size: 12px;
+  line-height: 1.6;
+  margin: 0 0 12px;
+}
+
+.song-player {
+  display: block;
+  width: 100%;
+  height: 152px;
+  border: 0;
+  border-radius: 12px;
+}
+
+.memory-progress {
+  margin: 24px auto;
+  text-align: left;
+}
+
+.progress-label {
+  display: flex;
+  justify-content: space-between;
+  gap: 10px;
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--forest);
+  margin-bottom: 9px;
+}
+
+.progress-track {
+  height: 9px;
+  border-radius: 99px;
+  background: #D5D9C8;
+  overflow: hidden;
+}
+
+.progress-fill {
+  width: 0%;
+  height: 100%;
+  background: var(--forest);
+  border-radius: 99px;
+  transition: width .35s ease;
+}
+
+.memory-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 13px;
+  margin: 20px 0;
+  text-align: left;
+}
+
+.memory-card {
+  background: #F5F1E3;
+  border: 1px solid #D5CDB6;
+  border-radius: 14px;
+  padding: 10px;
+  min-width: 0;
+}
+
+.memory-card img {
+  display: block;
+  width: 100%;
+  aspect-ratio: 4 / 3;
+  object-fit: cover;
+  border-radius: 9px;
+  margin-bottom: 11px;
+}
+
+.memory-card h3 {
+  font-family: "Playfair Display", Georgia, serif;
+  font-size: 16px;
+  line-height: 1.35;
+  margin: 0 0 7px;
+}
+
+.memory-card p {
+  font-size: 12px;
+  line-height: 1.7;
+  color: #766F60;
+  margin: 0 0 10px;
+}
+
+.memory-card .memory-detail {
+  display: none;
+  border-top: 1px solid #D5CDB6;
+  padding-top: 10px;
+  margin-top: 10px;
+}
+
+.memory-card.discovered .memory-detail {
+  display: block;
+}
+
+.memory-card.discovered {
+  border-color: var(--forest);
+}
+
+.memory-card.discovered .discover-btn {
+  background: #DCE0CD;
+  color: var(--forest);
+}
+
+.discover-btn,
+.fossil-btn {
+  width: 100%;
+  padding: 10px 8px;
+  border-radius: 9px;
+  background: var(--forest);
+  color: white;
+  font-size: 11px;
+}
+
+.memory-card .memory-fact {
+  font-size: 11px;
+  color: var(--forest);
+  font-weight: 700;
+  margin-bottom: 7px;
+}
+
+.hidden-fossil {
+  background: #E1E2D0;
+  border: 1px dashed #849274;
+  border-radius: 14px;
+  padding: 16px;
+  margin: 24px 0;
+}
+
+.hidden-fossil .fossil-emoji {
+  font-size: 36px;
+  margin-bottom: 5px;
+}
+
+.hidden-fossil h3 {
+  font-family: "Playfair Display", Georgia, serif;
+  margin: 5px 0 8px;
+}
+
+#fossil-message {
+  display: none;
+  font-size: 13px;
+  line-height: 1.8;
+  margin-top: 12px;
+}
+
+#fossil-message.revealed {
+  display: block;
+}
+
+.memory-back {
+  background: var(--forest);
+  color: white;
+  margin-top: 12px;
+}
+
+@media (max-width: 420px) {
+  .memory-grid {
+    gap: 9px;
+  }
+
+  .memory-card {
+    padding: 8px;
+  }
+
+  .memory-card h3 {
+    font-size: 14px;
+  }
+
+  .memory-card p {
+    font-size: 11px;
+  }
+
+  .song-box {
+    padding: 12px;
+  }
+}
+
 </style>
 </head>
 
@@ -494,7 +717,7 @@ button {
         <p>A few words from me, just for you.</p>
       </a>
 
-      <article class="gift-card">
+      <article class="gift-card" id="open-memories" style="cursor:pointer">
         <span class="gift-number">02</span>
         <div class="gift-icon">🦕</div>
         <h2>Little Memories</h2>
@@ -522,6 +745,187 @@ button {
       Back to my birthday page ↶
     </button>
   </section>
+  
+  <!-- LITTLE MEMORIES PAGE -->
+  <section id="little-memories">
+    <div class="brand">THE DINO EXPLORATION CLUB</div>
+
+    <div class="dino">🦕</div>
+
+    <div class="eyebrow">A JOURNAL OF LITTLE WONDERS</div>
+    <h2 class="memory-heading">Little Memories</h2>
+
+    <p class="memory-subtitle">
+      Six little discoveries, six little reminders.
+      Take a walk through this tiny prehistoric world. ♡
+    </p>
+
+    <div class="song-box">
+      <div class="song-label">A SONG I SAVED FOR YOU</div>
+      <h3>Remember this song?</h3>
+      <p>
+        Some songs keep a little piece of a memory.
+        Press play, and let's take this little walk together. ♡
+      </p>
+
+      <iframe
+        class="song-player"
+        src="https://open.spotify.com/embed/track/0daEJMXc3b4ZMTnvtHpuTt?theme=0"
+        title="Nina by .Feast on Spotify"
+        allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
+        loading="lazy">
+      </iframe>
+    </div>
+
+    <div class="memory-progress">
+      <div class="progress-label">
+        <span>YOUR DISCOVERIES</span>
+        <span id="memory-count">0 / 6</span>
+      </div>
+      <div
+        class="progress-track"
+        role="progressbar"
+        aria-label="Memory discoveries"
+        aria-valuemin="0"
+        aria-valuemax="6"
+        aria-valuenow="0"
+        id="memory-progress-track">
+        <div class="progress-fill" id="memory-progress-fill"></div>
+      </div>
+    </div>
+
+    <p class="eyebrow">TAP TO DISCOVER</p>
+
+    <div class="memory-grid">
+      <article class="memory-card" data-memory="1">
+        <img src="WhatsApp%20Image%202026-10-22%20at%2016.53.38.jpeg"
+             alt="Memory one">
+        <h3>01 · The Survivors</h3>
+        <p>Some beginnings come after an ending.</p>
+        <button class="discover-btn" type="button">Discover ♡</button>
+        <div class="memory-detail">
+          <p class="memory-fact">🦕 A prehistoric fact</p>
+          Life on Earth has survived several mass extinctions.
+          The ancestors of dinosaurs emerged long before dinosaurs
+          became the dominant animals on land.
+          <p><strong>A little reminder for you</strong></p>
+          Our Princess will be strong enough to rule the world.
+          ♡
+        </div>
+      </article>
+
+      <article class="memory-card" data-memory="2">
+        <img src="WhatsApp%20Image%202026-10-22%20at%2016.53.37%282%29.jpeg"
+             alt="Memory two">
+        <h3>02 · The Gentle Giants</h3>
+        <p>Even the biggest creatures stayed close.</p>
+        <button class="discover-btn" type="button">Discover ♡</button>
+        <div class="memory-detail">
+          <p class="memory-fact">🦕 A prehistoric fact</p>
+          Some sauropod trackways suggest that these giant dinosaurs
+          may have travelled in groups, including adults and younger
+          individuals.
+          <p><strong>A little reminder for you</strong></p>
+          Just like how you always take care of the youngest,
+          selalu menjadi yang terbaik dari semuanya. ♡
+        </div>
+      </article>
+
+      <article class="memory-card" data-memory="3">
+        <img src="WhatsApp%20Image%202026-10-22%20at%2016.53.37%281%29.jpeg"
+             alt="Memory three">
+        <h3>03 · The Fighter</h3>
+        <p>Scars can tell stories of survival.</p>
+        <button class="discover-btn" type="button">Discover ♡</button>
+        <div class="memory-detail">
+          <p class="memory-fact">🦖 A prehistoric fact</p>
+          Some dinosaur fossils show healed injuries, telling us
+          that these animals sometimes survived serious trauma.
+          <p><strong>A little reminder for you</strong></p>
+          Thank you for healing and rising again, even on the days
+          when you wanted to give up. I'm proud of you. ♡
+        </div>
+      </article>
+
+      <article class="memory-card" data-memory="4">
+        <img src="WhatsApp%20Image%202026-10-22%20at%2016.53.37.jpeg"
+             alt="Memory four">
+        <h3>04 · The Dream Keeper</h3>
+        <p>Some things are worth protecting.</p>
+        <button class="discover-btn" type="button">Discover ♡</button>
+        <div class="memory-detail">
+          <p class="memory-fact">🥚 A prehistoric fact</p>
+          Fossils of oviraptorosaurs have been found in positions
+          suggesting that some of them brooded over their nests.
+          <p><strong>A little reminder for you</strong></p>
+          Thank you for protecting your hopes, however small,
+          even if it's just to see Bang Chan for many more years. ♡
+        </div>
+      </article>
+
+      <article class="memory-card" data-memory="5">
+        <img src="WhatsApp%20Image%202026-10-22%20at%2016.53.36.jpeg"
+             alt="Memory five">
+        <h3>05 · The Little Wonders</h3>
+        <p>The ancient world still lives around us.</p>
+        <button class="discover-btn" type="button">Discover ♡</button>
+        <div class="memory-detail">
+          <p class="memory-fact">🐦 A prehistoric fact</p>
+          Birds are living descendants of theropod dinosaurs.
+          In a way, a piece of the dinosaur age is still here.
+          <p><strong>A little reminder for you</strong></p>
+          May you always find little wonders in ordinary days,
+          and remember that there is still so much beauty
+          waiting for you. ♡
+        </div>
+      </article>
+
+      <article class="memory-card" data-memory="6">
+        <img src="WhatsApp%20Image%202026-10-22%20at%2010.35.09%281%29.jpeg"
+             alt="Memory six">
+        <h3>06 · One of a Kind</h3>
+        <p>The world has never had another you.</p>
+        <button class="discover-btn" type="button">Discover ♡</button>
+        <div class="memory-detail">
+          <p class="memory-fact">🦕 A prehistoric fact</p>
+          Triceratops had three facial horns and a large bony frill
+          behind its skull, making it one of the most recognisable
+          dinosaurs.
+          <p><strong>A little reminder for you</strong></p>
+          Of all the wonderful creatures that ever walked this Earth,
+          I'm so glad this world got you. ♡
+        </div>
+      </article>
+    </div>
+
+    <div class="hidden-fossil">
+      <div class="fossil-emoji">🌿</div>
+      <h3>A tiny fossil is hiding here...</h3>
+      <p class="memory-subtitle">
+        A little something is buried beneath the leaves.
+        Think you can find it?
+      </p>
+      <button class="fossil-btn" id="find-fossil" type="button">
+        Search the leaves ✨
+      </button>
+      <p id="fossil-message">
+        🦴 You found the hidden fossil!<br><br>
+        Here's a little truth for you, Okisca:
+        even in a world that has changed countless times,
+        something precious can leave a mark that lasts.
+        You have left one in my world, too. ♡
+      </p>
+    </div>
+
+    <p id="memories-finished" class="note" style="display:none">
+      You found all six little memories! Thank you for being you. ♡
+    </p>
+
+    <button class="memory-back" id="back-from-memories" type="button">
+      Back to the little gifts ↶
+    </button>
+  </section>
+
 </main>
 
 <script>
@@ -575,6 +979,72 @@ backToBirthday.addEventListener("click", () => {
   giftMenu.style.display = "none";
   surprise.style.display = "block";
 });
+  
+/* LITTLE MEMORIES NAVIGATION */
+const memoriesPage = document.getElementById("little-memories");
+const memoriesCard = document.getElementById("open-memories");
+const backFromMemories = document.getElementById("back-from-memories");
+
+memoriesCard.addEventListener("click", () => {
+  giftMenu.style.display = "none";
+  memoriesPage.style.display = "block";
+  window.scrollTo(0, 0);
+});
+
+backFromMemories.addEventListener("click", () => {
+  memoriesPage.style.display = "none";
+  giftMenu.style.display = "block";
+  window.scrollTo(0, 0);
+});
+
+/* MEMORY DISCOVERY PROGRESS */
+const memoryCards = document.querySelectorAll(".memory-card");
+const memoryCount = document.getElementById("memory-count");
+const progressFill = document.getElementById("memory-progress-fill");
+const progressTrack = document.getElementById("memory-progress-track");
+const memoriesFinished = document.getElementById("memories-finished");
+
+let discoveredMemories = new Set();
+
+memoryCards.forEach((card) => {
+  const button = card.querySelector(".discover-btn");
+
+  button.addEventListener("click", () => {
+    const memoryNumber = card.dataset.memory;
+
+    if (discoveredMemories.has(memoryNumber)) {
+      card.classList.remove("discovered");
+      discoveredMemories.delete(memoryNumber);
+      button.textContent = "Discover ♡";
+    } else {
+      card.classList.add("discovered");
+      discoveredMemories.add(memoryNumber);
+      button.textContent = "Memory discovered ✓";
+    }
+
+    const total = discoveredMemories.size;
+    const percentage = (total / memoryCards.length) * 100;
+
+    memoryCount.textContent = `${total} / ${memoryCards.length}`;
+    progressFill.style.width = `${percentage}%`;
+    progressTrack.setAttribute("aria-valuenow", total);
+
+    memoriesFinished.style.display =
+      total === memoryCards.length ? "block" : "none";
+  });
+});
+
+/* HIDDEN FOSSIL */
+const findFossilButton = document.getElementById("find-fossil");
+const fossilMessage = document.getElementById("fossil-message");
+
+findFossilButton.addEventListener("click", () => {
+  fossilMessage.classList.add("revealed");
+  findFossilButton.textContent = "Fossil discovered! 🦴";
+  findFossilButton.disabled = true;
+  findFossilButton.style.opacity = "0.7";
+});
+
 </script>
 </body>
 </html>
