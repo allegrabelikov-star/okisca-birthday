@@ -787,23 +787,8 @@ button {
 }
   
 .falling-star {
-  /* Keep the falling motion on the outer star */
-  animation: star-fall linear forwards;
-}
 
-.falling-star::after {
-  content: attr(data-star);
-  position: relative;
-  z-index: 1;
-  animation: star-spin 4s linear infinite;
-}
-
-@keyframes star-spin {
-  from { transform: rotate(0deg); }
-  to { transform: rotate(360deg); }
-}
-  
-/* MAGICAL STAR TRAILS */
+/* FALLING STARS — CLEAN MAGICAL STYLE */
 .falling-star {
   position: absolute;
   display: flex;
@@ -813,40 +798,52 @@ button {
   height: 42px;
   padding: 0;
   border: 0;
-  background: transparent;
-  line-height: 1;
-  isolation: isolate;
-}
-
-/* Glowing tail behind each star */
-.falling-star::before {
-  content: "";
-  position: absolute;
-  z-index: -1;
-  width: 46px;
-  height: 3px;
-  left: -34px;
-  top: 18px;
   border-radius: 50%;
-  background: linear-gradient(
-    90deg,
-    transparent,
-    currentColor 75%,
-    #FFFFFF
-  );
-  opacity: .75;
-  transform: rotate(-35deg);
-  transform-origin: right center;
-  filter: blur(1px);
-  box-shadow: 0 0 8px currentColor;
-}
-
-/* Star glow */
-.falling-star {
+  background: transparent;
+  color: #FFF8E7;
+  line-height: 1;
   text-shadow:
     0 0 5px currentColor,
     0 0 13px currentColor,
     0 0 25px currentColor;
+  animation: star-fall linear forwards;
+  cursor: pointer;
+  isolation: isolate;
+  -webkit-appearance: none;
+  appearance: none;
+}
+
+/* Straight, soft stardust trail */
+.falling-star::before {
+  content: "";
+  position: absolute;
+  z-index: -1;
+  left: 50%;
+  top: 28px;
+  width: 2px;
+  height: 42px;
+  border-radius: 50%;
+  transform: translateX(-50%);
+  background: linear-gradient(
+    to bottom,
+    currentColor 0%,
+    rgba(255, 255, 255, 0.4) 30%,
+    rgba(255, 255, 255, 0.12) 65%,
+    transparent 100%
+  );
+  box-shadow: 0 0 7px currentColor;
+  opacity: 0.65;
+  pointer-events: none;
+}
+
+.falling-star:focus-visible {
+  outline: 2px solid #F4D991;
+  outline-offset: 2px;
+}
+
+.falling-star.caught {
+  pointer-events: none;
+  animation: star-catch .45s ease-out forwards;
 }
 
 /* Sparkles released when a star is caught */
