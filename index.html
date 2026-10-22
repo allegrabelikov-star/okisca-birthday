@@ -715,9 +715,9 @@ button {
   height: 100dvh;
   overflow: hidden;
   background:
-    radial-gradient(ellipse at 50% 100%, #304634 0%, transparent 65%),
-    linear-gradient(180deg, #101E18 0%, #1B3026 55%, #243A2B 100%);
-  color: #F5E9C8;
+    radial-gradient(ellipse at 50% 100%, #263F70 0%, transparent 60%),
+    radial-gradient(ellipse at 50% 0%, #243765 0%, transparent 65%),
+    linear-gradient(180deg, #080F27 0%, #101B3B 52%, #192B50 100%);
   font-family: "DM Sans", sans-serif;
   text-align: center;
 }
@@ -777,6 +777,91 @@ button {
   filter: drop-shadow(0 0 8px rgba(244, 217, 145, .65));
   animation: star-fall linear forwards;
 }
+  
+/* MAGICAL STAR TRAILS */
+.falling-star {
+  position: absolute;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 42px;
+  height: 42px;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  line-height: 1;
+  isolation: isolate;
+}
+
+/* Glowing tail behind each star */
+.falling-star::before {
+  content: "";
+  position: absolute;
+  z-index: -1;
+  width: 46px;
+  height: 3px;
+  left: -34px;
+  top: 18px;
+  border-radius: 50%;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    currentColor 75%,
+    #FFFFFF
+  );
+  opacity: .75;
+  transform: rotate(-35deg);
+  transform-origin: right center;
+  filter: blur(1px);
+  box-shadow: 0 0 8px currentColor;
+}
+
+/* Star glow */
+.falling-star {
+  text-shadow:
+    0 0 5px currentColor,
+    0 0 13px currentColor,
+    0 0 25px currentColor;
+}
+
+/* Sparkles released when a star is caught */
+.wish-spark {
+  position: absolute;
+  z-index: 5;
+  pointer-events: none;
+  color: var(--spark-color, #FFD978);
+  font-size: var(--spark-size, 16px);
+  left: var(--spark-x, 50%);
+  top: var(--spark-y, 50%);
+  animation: sparkle-burst .9s ease-out forwards;
+  text-shadow: 0 0 12px currentColor;
+}
+
+@keyframes sparkle-burst {
+  0% {
+    opacity: 1;
+    transform: translate(-50%, -50%) scale(.3) rotate(0deg);
+  }
+  55% {
+    opacity: 1;
+    transform:
+      translate(
+        calc(-50% + var(--spark-dx)),
+        calc(-50% + var(--spark-dy))
+      )
+      scale(1.3) rotate(90deg);
+  }
+  100% {
+    opacity: 0;
+    transform:
+      translate(
+        calc(-50% + var(--spark-dx)),
+        calc(-50% + var(--spark-dy))
+      )
+      scale(.2) rotate(180deg);
+  }
+}
+
 
 .falling-star:focus-visible {
   outline: 2px solid #F4D991;
@@ -1590,26 +1675,32 @@ const oneLastCard = document.querySelector(
 );
 
 const wishes = [
-  "May you always be surrounded by kind people. ♡",
-  "May you always be healthy, happy, and full of energy.",
-  "May free shipping find its way to every order you make. 📦",
-  "May a cool breeze always find you, wherever you go. 🌿",
-  "May surprise money appear whenever you need it. 💸",
-  "May you get to meet your favourite idol in person someday. 🐺",
-  "May you always find delicious food without having to look too far. 🍜",
-  "May you always be loved by me. ♡",
-  "May your phone always stay cool and fully charged. 🔋",
-  "May your snack cravings never come with a queue. 🍰",
-  "May we always find our way back to each other. 💚",
-  "May you always be able to buy the novels you love. 📚",
-  "May your favourite songs find you on the days you need them most. 🎧",
-  "May little surprises find you on ordinary days. ✨",
+  "Semoga kamu dikelilingi orang baik.",
+  "Semoga kamu selalu sehat dan segar bugar.",
+  "Semoga selalu gratis ongkir tiap belanja apapun.",
+  "Semoga hawa sejuk selalu menemukanmu.",
+  "Semoga saat kamu butuh uang, selalu ada surprise money.",
+  "Semoga bisa meet and greet sama biasmu.",
+  "Semoga selalu dapat restoran yang enak.",
+  "Semoga selalu mencintai aku.",
+  "Semoga ponselmu selalu dingin dan full charged.",
+  "Semoga kalau mau beli jajan ga antri.",
+  "Semoga selalu bersama aku.",
+  "Semoga selalu bisa beli novel yang kamu suka."
   "May life be gentle with you, even when the world feels loud.",
   "May every new year bring you closer to the dreams you hold dear."
 ];
 
 const starShapes = ["✦", "✧", "⋆", "★", "☆", "✶", "✷", "✹", "✴", "✵"];
-const starColors = ["#F4D991", "#E6C47B", "#D9AD70", "#D8E2BD", "#F5E9C8"];
+
+const starColors = [
+  "#FFD978", // golden starlight
+  "#FFF8E7", // moonlit white
+  "#A9D9FF", // ice blue
+  "#D9C5FF", // lavender sparkle
+  "#F8F5FF"  // silver white
+];
+
 
 let starTimer = null;
 let activeWishTimer = null;
@@ -1672,6 +1763,8 @@ function createFallingStar() {
     if (star.classList.contains("caught")) return;
 
     star.classList.add("caught");
+    
+createSparkles(star);
 
     const wish = wishes[Math.floor(Math.random() * wishes.length)];
     wishText.textContent = wish;
@@ -1690,6 +1783,32 @@ function createFallingStar() {
   });
 
   starField.appendChild(star);
+}
+
+
+function createSparkles(star) {
+  const rect = star.getBoundingClientRect();
+
+  const symbols = ["✦", "✧", "⋆", "·", "✴"];
+  const colors = ["#FFD978", "#FFF8E7", "#A9D9FF", "#D9C5FF"];
+
+  for (let i = 0; i < 14; i++) {
+    const spark = document.createElement("span");
+    spark.className = "wish-spark";
+    spark.textContent = symbols[Math.floor(Math.random() * symbols.length)];
+
+    spark.style.left = `${rect.left + rect.width / 2}px`;
+    spark.style.top = `${rect.top + rect.height / 2}px`;
+    spark.style.setProperty("--spark-x", "0px");
+    spark.style.setProperty("--spark-y", "0px");
+    spark.style.setProperty("--spark-dx", `${Math.random() * 150 - 75}px`);
+    spark.style.setProperty("--spark-dy", `${Math.random() * 150 - 75}px`);
+    spark.style.setProperty("--spark-color", colors[Math.floor(Math.random() * colors.length)]);
+    spark.style.setProperty("--spark-size", `${10 + Math.random() * 18}px`);
+
+    document.body.appendChild(spark);
+    setTimeout(() => spark.remove(), 950);
+  }
 }
 
 </script>
