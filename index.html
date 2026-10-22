@@ -396,16 +396,11 @@ back.addEventListener("click", () => {
   no.style.transform = "none";
 });
 
-const openGiftsButton = document.getElementById("open-gifts");
-const giftMenuSection = document.getElementById("gift-menu");
-
-if (openGiftsButton && giftMenuSection) {
-  openGiftsButton.addEventListener("click", () => {
-    document.getElementById("surprise").style.display = "none";
-    giftMenuSection.style.display = "block";
-    window.scrollTo({ top: 0, behavior: "smooth" });
-  });
-}
+document.getElementById("open-gifts").onclick = function () {
+  document.getElementById("surprise").style.display = "none";
+  document.getElementById("gift-menu").style.display = "block";
+  window.scrollTo(0, 0);
+};
 
 backToBirthday.addEventListener("click", () => {
   giftMenu.style.display = "none";
