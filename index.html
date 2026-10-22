@@ -345,8 +345,6 @@ button {
   </section>
 </main>
 
-</main>
-
 <script>
 const welcome = document.getElementById("welcome");
 const surprise = document.getElementById("surprise");
@@ -389,12 +387,6 @@ no.addEventListener("click", () => {
 });
 
 back.addEventListener("click", () => {
-  surprise.style.display = "none";
-  welcome.style.display = "block";
-  giftMenu.style.display = "none";
-  no.textContent = "No 😶";
-  no.style.transform = "none";
-});
 
 document.getElementById("open-gifts").onclick = function () {
   document.getElementById("surprise").style.display = "none";
