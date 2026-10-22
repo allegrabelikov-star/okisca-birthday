@@ -287,6 +287,64 @@ button {
       Read that again ↻
     </button>
   </section>
+  
+  <section id="gift-menu">
+    <div class="brand">MADE WITH LOVE ♡</div>
+
+    <div class="dino">🦕</div>
+
+    <div class="eyebrow">A TINY TREASURE BOX</div>
+    <h1 style="font-size:clamp(32px, 7vw, 48px);text-transform:none">
+      A Little<br>Surprise for You
+    </h1>
+
+    <p class="gift-intro">
+      A few little things, gathered just for you.
+      Take your time and open whichever one
+      your heart wants first. ♡
+    </p>
+
+    <div class="gift-grid">
+      <a class="gift-card"
+         href="https://write.as/031rwg8popotkdl7.md"
+         target="_blank"
+         rel="noopener noreferrer">
+        <span class="gift-number">GIFT NO. 01</span>
+        <div class="gift-icon">💌</div>
+        <h2>A Little Letter</h2>
+        <p>A few words from me, just for you.</p>
+      </a>
+
+      <article class="gift-card">
+        <span class="gift-number">GIFT NO. 02</span>
+        <div class="gift-icon">🦕</div>
+        <h2>Little Memories</h2>
+        <p>Pretty pictures, dinosaur facts, and little reminders.</p>
+      </article>
+
+      <article class="gift-card">
+        <span class="gift-number">GIFT NO. 03</span>
+        <div class="gift-icon">🎟️</div>
+        <h2>Tiny Things for You</h2>
+        <p>A few little treats and surprises to claim.</p>
+      </article>
+
+      <article class="gift-card">
+        <span class="gift-number">GIFT NO. 04</span>
+        <div class="gift-icon">💚</div>
+        <h2>One Last Thing</h2>
+        <p>Something I saved for the very end.</p>
+      </article>
+    </div>
+
+    <p class="note">P.S. There is no wrong order. Just follow your heart. ♡</p>
+
+    <button id="back-to-birthday" class="gift-back">
+      Back to my birthday page ↶
+    </button>
+  </section>
+</main>
+
 </main>
 
 <script>
@@ -295,6 +353,9 @@ const surprise = document.getElementById("surprise");
 const yes = document.getElementById("yes");
 const no = document.getElementById("no");
 const back = document.getElementById("back");
+const giftMenu = document.getElementById("gift-menu");
+const openGifts = document.getElementById("open-gifts");
+const backToBirthday = document.getElementById("back-to-birthday");
 
 yes.addEventListener("click", () => {
   welcome.style.display = "none";
@@ -330,9 +391,17 @@ no.addEventListener("click", () => {
 back.addEventListener("click", () => {
   surprise.style.display = "none";
   welcome.style.display = "block";
+  giftMenu.style.display = "none";
   no.textContent = "No 😶";
   no.style.transform = "none";
 });
-</script>
-</body>
-</html>
+
+openGifts.addEventListener("click", () => {
+  surprise.style.display = "none";
+  giftMenu.style.display = "block";
+});
+
+backToBirthday.addEventListener("click", () => {
+  giftMenu.style.display = "none";
+  surprise.style.display = "block";
+});
