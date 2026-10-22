@@ -623,6 +623,87 @@ button {
   }
 }
 
+/* BANG CHAN JIGSAW PUZZLE */
+#tiny-puzzle {
+  display: none;
+  width: 100%;
+  animation: appear .6s ease both;
+}
+
+#puzzle-board {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 4px;
+  width: 100%;
+  max-width: 440px;
+  margin: 22px auto 12px;
+  padding: 7px;
+  background: #D5CDB6;
+  border: 1px solid #B9B99F;
+  border-radius: 14px;
+  overflow: hidden;
+  touch-action: manipulation;
+}
+
+.puzzle-piece {
+  position: relative;
+  aspect-ratio: 1 / 1;
+  min-width: 0;
+  padding: 0;
+  border: 2px solid transparent;
+  border-radius: 5px;
+  overflow: hidden;
+  background-repeat: no-repeat;
+  background-size: 400% 400%;
+  cursor: pointer;
+  transition: border-color .15s, transform .15s;
+}
+
+.puzzle-piece.selected {
+  border-color: #D9AD70;
+  transform: scale(.94);
+  box-shadow: 0 0 0 2px var(--forest);
+}
+
+.puzzle-piece:focus-visible {
+  outline: 3px solid var(--amber);
+  outline-offset: 1px;
+}
+
+#puzzle-complete {
+  padding: 16px 8px;
+  margin-top: 18px;
+  background: #F5F1E3;
+  border: 1px solid #D5CDB6;
+  border-radius: 16px;
+  animation: appear .7s ease both;
+}
+
+#puzzle-complete .dino {
+  font-size: 60px;
+  margin: 8px 0;
+}
+
+#shuffle-puzzle {
+  margin: 12px 5px 0;
+}
+
+#back-from-puzzle {
+  margin: 10px 5px 0;
+}
+
+@media (max-width: 420px) {
+  #puzzle-board {
+    gap: 3px;
+    padding: 5px;
+  }
+
+  .puzzle-piece {
+    border-radius: 3px;
+  }
+}
+
+
 </style>
 </head>
 
@@ -932,6 +1013,65 @@ button {
     </button>
   </section>
 
+
+  <!-- TINY THINGS FOR YOU: JIGSAW PUZZLE -->
+  <section id="tiny-puzzle" style="display:none">
+    <div class="brand">A LITTLE CHALLENGE FOR YOU ♡</div>
+
+    <div class="dino">🦕</div>
+
+    <div class="eyebrow">YOUR SPECIAL LITTLE TREAT</div>
+    <h2 class="memory-heading">Tiny Things for You</h2>
+
+    <p class="memory-subtitle">
+      A little puzzle featuring someone very special.
+      Put all 16 pieces together to unlock your surprise. ♡
+    </p>
+
+    <div class="song-box">
+      <div class="song-label">MISSION: FIND YOUR BIAS</div>
+      <h3>Ready, princess? 🐺</h3>
+      <p>Arrange the pieces until the picture is whole again!</p>
+    </div>
+
+    <div class="memory-progress">
+      <div class="progress-label">
+        <span>PUZZLE PROGRESS</span>
+        <span id="puzzle-count">0 / 16</span>
+      </div>
+      <div class="progress-track">
+        <div class="progress-fill" id="puzzle-progress-fill"></div>
+      </div>
+    </div>
+
+    <div id="puzzle-board" aria-label="Bang Chan jigsaw puzzle"></div>
+
+    <p id="puzzle-hint" class="note">
+      Tap one piece, then another to swap them. ♡
+    </p>
+
+    <div id="puzzle-complete" style="display:none">
+      <div class="dino">🐺💚</div>
+      <h2 class="memory-heading">YOU DID IT!</h2>
+      <p class="memory-subtitle">
+        Congratulations! You have successfully unlocked
+        your favorite man. Happy birthday, princess! ♡
+      </p>
+      <p style="font-size:14px;line-height:1.8">
+        May your days be filled with little joys,
+        good music, and all the love you deserve. ♡
+      </p>
+    </div>
+
+    <button id="shuffle-puzzle" class="memory-back" type="button">
+      Shuffle again ↻
+    </button>
+
+    <button id="back-from-puzzle" class="memory-back" type="button">
+      Back to the little gifts ↶
+    </button>
+  </section>
+
 </main>
 
 <script>
@@ -1050,6 +1190,166 @@ findFossilButton.addEventListener("click", () => {
   findFossilButton.disabled = true;
   findFossilButton.style.opacity = "0.7";
 });
+
+
+/* TINY THINGS FOR YOU — 4x4 BANG CHAN PUZZLE */
+const puzzlePage = document.getElementById("tiny-puzzle");
+const puzzleCard = document.querySelector(
+  '#gift-menu .gift-card:nth-child(3)'
+);
+const backFromPuzzle = document.getElementById("back-from-puzzle");
+const puzzleBoard = document.getElementById("puzzle-board");
+const puzzleCount = document.getElementById("puzzle-count");
+const puzzleProgressFill = document.getElementById("puzzle-progress-fill");
+const puzzleComplete = document.getElementById("puzzle-complete");
+const puzzleHint = document.getElementById("puzzle-hint");
+const shufflePuzzle = document.getElementById("shuffle-puzzle");
+
+const puzzleImage = "Bangchan%20wallpaper%20%F0%9F%94%A5.jpeg";
+const puzzleSize = 4;
+const totalPieces = puzzleSize * puzzleSize;
+
+let puzzleOrder = [];
+let selectedPiece = null;
+let puzzleSolved = false;
+
+puzzleCard.style.cursor = "pointer";
+
+puzzleCard.addEventListener("click", () => {
+  giftMenu.style.display = "none";
+  puzzlePage.style.display = "block";
+  window.scrollTo(0, 0);
+  startPuzzle();
+});
+
+backFromPuzzle.addEventListener("click", () => {
+  puzzlePage.style.display = "none";
+  giftMenu.style.display = "block";
+  window.scrollTo(0, 0);
+});
+
+function shufflePieces() {
+  puzzleOrder = Array.from(
+    { length: totalPieces },
+    (_, index) => index
+  );
+
+  // Fisher-Yates shuffle
+  for (let i = puzzleOrder.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [puzzleOrder[i], puzzleOrder[j]] =
+      [puzzleOrder[j], puzzleOrder[i]];
+  }
+
+  // Make sure the puzzle doesn't start already solved
+  if (puzzleOrder.every((piece, index) => piece === index)) {
+    [puzzleOrder[0], puzzleOrder[1]] =
+      [puzzleOrder[1], puzzleOrder[0]];
+  }
+}
+
+function startPuzzle() {
+  shufflePieces();
+  selectedPiece = null;
+  puzzleSolved = false;
+
+  puzzleComplete.style.display = "none";
+  puzzleHint.style.display = "block";
+  shufflePuzzle.style.display = "inline-block";
+  shufflePuzzle.disabled = false;
+  shufflePuzzle.style.opacity = "1";
+
+  renderPuzzle();
+}
+
+function renderPuzzle() {
+  puzzleBoard.innerHTML = "";
+
+  puzzleOrder.forEach((correctPosition, currentPosition) => {
+    const piece = document.createElement("button");
+
+    piece.type = "button";
+    piece.className = "puzzle-piece";
+    piece.setAttribute(
+      "aria-label",
+      `Puzzle piece ${currentPosition + 1}`
+    );
+
+    const row = Math.floor(correctPosition / puzzleSize);
+    const column = correctPosition % puzzleSize;
+
+    piece.style.backgroundImage = `url("${puzzleImage}")`;
+    piece.style.backgroundPosition =
+      `${column * 100 / (puzzleSize - 1)}% ` +
+      `${row * 100 / (puzzleSize - 1)}%`;
+
+    if (selectedPiece === currentPosition) {
+      piece.classList.add("selected");
+      piece.setAttribute("aria-pressed", "true");
+    } else {
+      piece.setAttribute("aria-pressed", "false");
+    }
+
+    piece.addEventListener("click", () => {
+      handlePieceClick(currentPosition);
+    });
+
+    puzzleBoard.appendChild(piece);
+  });
+
+  updatePuzzleProgress();
+}
+
+function handlePieceClick(position) {
+  if (puzzleSolved) return;
+
+  if (selectedPiece === null) {
+    selectedPiece = position;
+    renderPuzzle();
+    return;
+  }
+
+  if (selectedPiece === position) {
+    selectedPiece = null;
+    renderPuzzle();
+    return;
+  }
+
+  // Swap the two selected pieces
+  [puzzleOrder[selectedPiece], puzzleOrder[position]] =
+    [puzzleOrder[position], puzzleOrder[selectedPiece]];
+
+  selectedPiece = null;
+
+  if (puzzleOrder.every((piece, index) => piece === index)) {
+    puzzleSolved = true;
+    renderPuzzle();
+    puzzleComplete.style.display = "block";
+    puzzleHint.style.display = "none";
+    shufflePuzzle.style.display = "none";
+
+    setTimeout(() => {
+      puzzleComplete.scrollIntoView({
+        behavior: "smooth",
+        block: "nearest"
+      });
+    }, 150);
+  } else {
+    renderPuzzle();
+  }
+}
+
+function updatePuzzleProgress() {
+  const correctPieces = puzzleOrder.filter(
+    (piece, index) => piece === index
+  ).length;
+
+  puzzleCount.textContent = `${correctPieces} / ${totalPieces}`;
+  puzzleProgressFill.style.width =
+    `${correctPieces / totalPieces * 100}%`;
+}
+
+shufflePuzzle.addEventListener("click", startPuzzle);
 
 </script>
 </body>
