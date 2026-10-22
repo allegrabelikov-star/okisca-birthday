@@ -704,6 +704,199 @@ button {
 }
 
 
+/* ONE LAST THING — THE WISHING SKY */
+#wishing-sky {
+  display: none;
+  position: fixed;
+  inset: 0;
+  z-index: 1000;
+  width: 100%;
+  height: 100vh;
+  height: 100dvh;
+  overflow: hidden;
+  background:
+    radial-gradient(ellipse at 50% 100%, #304634 0%, transparent 65%),
+    linear-gradient(180deg, #101E18 0%, #1B3026 55%, #243A2B 100%);
+  color: #F5E9C8;
+  font-family: "DM Sans", sans-serif;
+  text-align: center;
+}
+
+#wishing-sky * {
+  box-sizing: border-box;
+}
+
+.wish-heading {
+  position: absolute;
+  top: 7%;
+  left: 16px;
+  right: 16px;
+  z-index: 3;
+  pointer-events: none;
+}
+
+.wish-heading .brand {
+  color: #C8D7B7;
+  font-size: 10px;
+  letter-spacing: 3px;
+}
+
+.wish-heading h2 {
+  font-family: "Playfair Display", Georgia, serif;
+  font-size: clamp(30px, 7vw, 46px);
+  line-height: 1.15;
+  margin: 12px 0;
+  color: #F5E9C8;
+}
+
+.wish-heading p {
+  font-size: 12px;
+  line-height: 1.8;
+  color: #C8D7B7;
+}
+
+#star-field {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+}
+
+.falling-star {
+  position: absolute;
+  top: -60px;
+  left: 0;
+  padding: 8px;
+  border: 0;
+  background: transparent;
+  color: #F4D991;
+  font-size: 26px;
+  line-height: 1;
+  cursor: pointer;
+  user-select: none;
+  -webkit-tap-highlight-color: transparent;
+  filter: drop-shadow(0 0 8px rgba(244, 217, 145, .65));
+  animation: star-fall linear forwards;
+}
+
+.falling-star:focus-visible {
+  outline: 2px solid #F4D991;
+  border-radius: 50%;
+}
+
+@keyframes star-fall {
+  from {
+    transform: translate(0, 0) rotate(0deg);
+  }
+  to {
+    transform: translate(var(--drift), 115vh) rotate(200deg);
+  }
+}
+
+.falling-star.caught {
+  pointer-events: none;
+  animation: star-catch .45s ease-out forwards;
+}
+
+@keyframes star-catch {
+  to {
+    transform: scale(2.5) rotate(100deg);
+    opacity: 0;
+    filter: drop-shadow(0 0 22px #F4D991);
+  }
+}
+
+.wish-reveal {
+  position: absolute;
+  inset: 0;
+  z-index: 4;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 28px;
+  pointer-events: none;
+}
+
+.wish-message {
+  width: min(100%, 460px);
+  padding: 25px 22px;
+  border: 1px solid rgba(244, 217, 145, .35);
+  border-radius: 20px;
+  background: rgba(16, 30, 24, .92);
+  box-shadow: 0 0 55px rgba(244, 217, 145, .12);
+  opacity: 0;
+  transform: scale(.86);
+  transition: opacity .45s ease, transform .45s ease;
+}
+
+.wish-message.visible {
+  opacity: 1;
+  transform: scale(1);
+}
+
+.wish-message .wish-sparkle {
+  color: #F4D991;
+  font-size: 32px;
+  margin-bottom: 12px;
+  animation: wish-glow 1.2s ease-in-out infinite alternate;
+}
+
+.wish-message p {
+  font-family: "Playfair Display", Georgia, serif;
+  font-size: clamp(20px, 5vw, 27px);
+  line-height: 1.65;
+  margin: 0;
+  color: #F5E9C8;
+}
+
+@keyframes wish-glow {
+  from {
+    opacity: .65;
+    transform: scale(.92);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1.08);
+  }
+}
+
+.wish-close {
+  position: absolute;
+  top: 16px;
+  right: 16px;
+  z-index: 5;
+  width: 42px;
+  height: 42px;
+  padding: 0;
+  border: 1px solid rgba(245, 233, 200, .25);
+  border-radius: 50%;
+  background: rgba(16, 30, 24, .65);
+  color: #F5E9C8;
+  font-size: 20px;
+}
+
+.wish-footer {
+  position: absolute;
+  z-index: 3;
+  left: 16px;
+  right: 16px;
+  bottom: max(22px, env(safe-area-inset-bottom));
+  color: #C8D7B7;
+  font-size: 11px;
+  line-height: 1.8;
+  pointer-events: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .falling-star {
+    animation-duration: 12s;
+  }
+
+  .wish-message .wish-sparkle {
+    animation: none;
+  }
+}
+
+
 </style>
 </head>
 
@@ -1072,6 +1265,41 @@ button {
     </button>
   </section>
 
+
+  <!-- THE WISHING SKY -->
+  <section id="wishing-sky" aria-label="A sky full of wishes">
+    <button
+      class="wish-close"
+      id="close-wishing-sky"
+      type="button"
+      aria-label="Return to the little gifts">
+      ×
+    </button>
+
+    <div class="wish-heading">
+      <div class="brand">WISH FROM THE STAR</div>
+      <h2>Catch a Falling Star</h2>
+      <p>
+        Kapanpun, saat kamu merasa membutuhkan sedikit harapan ♡<br>
+        Catch a star and see what the universe has for you.
+      </p>
+    </div>
+
+    <div id="star-field" aria-label="Falling stars"></div>
+
+    <div class="wish-reveal" id="wish-reveal" aria-live="polite">
+      <div class="wish-message" id="wish-message">
+        <div class="wish-sparkle">✧ ✦ ✧</div>
+        <p id="wish-text"></p>
+      </div>
+    </div>
+
+    <div class="wish-footer">
+      ✦ The stars are always here for you ✦<br>
+      Made with love, just for Okisca. ♡
+    </div>
+  </section>
+  
 </main>
 
 <script>
@@ -1350,7 +1578,26 @@ function updatePuzzleProgress() {
 }
 
 shufflePuzzle.addEventListener("click", startPuzzle);
+ star.classList.add("caught");
 
+    const wish = wishes[Math.floor(Math.random() * wishes.length)];
+    wishText.textContent = wish;
+    wishMessage.classList.add("visible");
+
+    clearTimeout(activeWishTimer);
+    activeWishTimer = setTimeout(() => {
+      wishMessage.classList.remove("visible");
+    }, 3500);
+
+    setTimeout(() => star.remove(), 450);
+  });
+
+  star.addEventListener("animationend", () => {
+    star.remove();
+  });
+
+  starField.appendChild(star);
+}
 </script>
 </body>
 </html>
